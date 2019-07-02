@@ -8,12 +8,15 @@ import _ from 'lodash'
 
 class Main extends Component {
   componentDidMount() {
-    //this.props.getItems()
+    this.props.getItems({
+      word: "cafe",
+      wifi: 1,
+      outret: 1
+    })
   }
 
   renderList() {
     return _.map(this.props.listItems, (l, i) => (
-      /*keyはJSONデータに合わせて変更*/
       <ListItem key={i} id={i} />
     ))
   }

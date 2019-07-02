@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
+import Button from '@material-ui/core/Button'
 import InputBase from '@material-ui/core/InputBase'
 import SearchIcon from '@material-ui/icons/Search'
 import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLable from '@material-ui/core/FormControlLabel'
 import logo from '../topbanner.png'
+import { getItems, toggleWifi, toggleOutret } from '../actions'
 
 const styles = {
   search: {
@@ -20,7 +23,7 @@ const styles = {
   },
   searchFormWrap: {
     position: "relative",
-    width: "50%",
+    width: "60%",
     margin: "0 auto"
   },
   searchForm: {
@@ -31,14 +34,17 @@ const styles = {
     paddingLeft: 60,
     background: "#fff"
   },
-  searchIcon: {
+  searchIconButton: {
     position: "absolute",
     left: 8,
-    top: 14,
+    top: 15,
+    margin: 0,
+    padding: 0,
+    color: "#888"
+  },
+  searchIcon: {
     width: 40,
     height: 40,
-    margin: 2,
-    color: "#888"
   },
   formControl: {
     display: "flex",
@@ -49,13 +55,27 @@ const styles = {
 
 }
 
-export default class MainSearch extends Component {
+class MainSearch extends Component {
+  constructor(props) {
+    super(props)
+    this.executeSearch = this.executeSearch.bind(this)
+    this.toggleWifi = this.toggleWifi.bind(this)
+    this.toggleOutret = this.toggleOutret.bind(this)
+  }
 
   executeSearch(e) {
+    console.log(e)
     if ( e.keyCode === 13 ) {
-      console.log(e.target.value)
+      this.props.getItems({
+        word: e.target.value,
+        wifi: this.props.toggleMenus.wifi,
+        outret: this.props.toggleMenus.outret
+      })
     }
   }
+
+  toggleWifi() { this.props.toggleWifi() }
+  toggleOutret() { this.props.toggleOutret() }
 
   render() {
     return (
@@ -66,14 +86,32 @@ export default class MainSearch extends Component {
                       placeholder="キーワードを入力　例)"
                       onKeyDown={this.executeSearch}
                       />
-            <SearchIcon style={styles.searchIcon} />
+            <Button style={styles.searchIconButton}>
+            <SearchIcon style={styles.searchIcon}/>
+            </Button>
           </div>
           <div style={styles.formControl}>
-            <FormControlLable control={<Checkbox color="primary" /> } label="Wifiあり" />
-            <FormControlLable control={<Checkbox color="primary" /> } label="電源あり" />
+            <FormControlLable control={<Checkbox color="primary" /> }
+                              label="Wifiあり"
+                              checked={this.props.toggleMenus.wifi}
+                              onClick={this.toggleWifi}
+            />
+            <FormControlLable control={<Checkbox color="primary" /> }
+                              label="電源あり"
+                              checked={this.props.toggleMenus.outret}
+                              onClick={this.toggleOutret}
+            />
           </div>
         </div>
       </Grid>
     )
   }
 }
+
+const mapStateToProps = state => ({
+  listItems: state.listItems,
+  toggleMenus: state.toggleMenus
+})
+const mapDispatchToProps = ({ getItems, toggleWifi, toggleOutret })
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainSearch)

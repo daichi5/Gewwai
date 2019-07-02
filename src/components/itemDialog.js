@@ -26,11 +26,8 @@ const styles = {
     wordWrap: "break-word"
   },
   closeButton: {
-    position: "absolute",
-    bottom: 0,
-    right: 0,
-    left: 0,
-    margin: "auto"
+    margin: "20px 0 10px",
+    textAlign: "center"
   },
   itemData: {
     marginBottom: 15
@@ -75,11 +72,11 @@ class ItemDialog extends Component {
               <p style={styles.itemData}>{item.pr.pr_short}</p>
               <p style={styles.itemData}>{item.tel}</p>
             </Typography>
-            <div style={styles.closeButton}>
-              <Button onClick={this.toggle}>Close</Button>
-            </div>
           </CardContent>
         </DialogContent>
+        <div style={styles.closeButton}>
+          <Button onClick={this.toggle}>Close</Button>
+        </div>
       </Dialog>
     )
   }
