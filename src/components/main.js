@@ -9,7 +9,7 @@ import _ from 'lodash'
 class Main extends Component {
   componentDidMount() {
     this.props.getItems({
-      word: "cafe",
+      freeword: "cafe",
       wifi: 1,
       outret: 1
     })

@@ -7,7 +7,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLable from '@material-ui/core/FormControlLabel'
 import logo from '../topbanner.png'
-import { getItems, toggleWifi, toggleOutret } from '../actions'
+import { getItems, toggleWifi, toggleOutret, changeFreeword } from '../actions'
 
 const styles = {
   search: {
@@ -59,19 +59,24 @@ class MainSearch extends Component {
   constructor(props) {
     super(props)
     this.executeSearch = this.executeSearch.bind(this)
+    this.handleOnChangeFreeword = this.handleOnChangeFreeword.bind(this)
+    this.handleKeyDownSearch = this.handleKeyDownSearch.bind(this)
     this.toggleWifi = this.toggleWifi.bind(this)
     this.toggleOutret = this.toggleOutret.bind(this)
   }
 
-  executeSearch(e) {
-    console.log(e)
+  executeSearch() {
+      this.props.getItems(this.props.toggleMenus)
+  }
+
+  handleKeyDownSearch(e) {
     if ( e.keyCode === 13 ) {
-      this.props.getItems({
-        word: e.target.value,
-        wifi: this.props.toggleMenus.wifi,
-        outret: this.props.toggleMenus.outret
-      })
+      this.executeSearch()
     }
+  }
+
+  handleOnChangeFreeword(e) {
+    this.props.changeFreeword(e.target.value)
   }
 
   toggleWifi() { this.props.toggleWifi() }
@@ -83,10 +88,11 @@ class MainSearch extends Component {
         <div style={styles.searchFormWrap}>
           <div style={styles.formControl}>
             <InputBase style={styles.searchForm}
-                      placeholder="キーワードを入力　例)"
-                      onKeyDown={this.executeSearch}
+                      placeholder="キーワードを入力 ( 例 ) 横浜　カフェ"
+                      onChange={this.handleOnChangeFreeword}
+                      onKeyDown={this.handleKeyDownSearch}
                       />
-            <Button style={styles.searchIconButton}>
+            <Button style={styles.searchIconButton} onClick={this.executeSearch} >
             <SearchIcon style={styles.searchIcon}/>
             </Button>
           </div>
@@ -112,6 +118,6 @@ const mapStateToProps = state => ({
   listItems: state.listItems,
   toggleMenus: state.toggleMenus
 })
-const mapDispatchToProps = ({ getItems, toggleWifi, toggleOutret })
+const mapDispatchToProps = ({ getItems, toggleWifi, toggleOutret, changeFreeword })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainSearch)

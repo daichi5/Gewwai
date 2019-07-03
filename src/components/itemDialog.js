@@ -23,14 +23,16 @@ const styles = {
     position: "relative"
   },
   listContent: {
-    wordWrap: "break-word"
+    wordWrap: "break-word",
+    padding: "0 20px"
   },
   closeButton: {
     margin: "20px 0 10px",
     textAlign: "center"
   },
   itemData: {
-    marginBottom: 15
+    marginBottom: 15,
+    whiteSpace: "pre-line"
   }
 }
 
@@ -68,9 +70,13 @@ class ItemDialog extends Component {
               {item.name}
             </Typography>
             <Typography color="textSecondary" component="div" style={styles.listContent}>
+              <p style={styles.itemData}>{item.tel}</p>
               <p style={styles.itemData}>{ item.address }</p>
               <p style={styles.itemData}>{item.pr.pr_short}</p>
-              <p style={styles.itemData}>{item.tel}</p>
+              <h3>営業時間</h3>
+              <p style={styles.itemData}>{item.opentime}</p>
+              <h3>定休日</h3>
+              <p style={styles.itemData}>{item.holiday}</p>
             </Typography>
           </CardContent>
         </DialogContent>
