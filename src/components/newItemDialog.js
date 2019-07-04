@@ -18,7 +18,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const styles = {
   card: {
-    height: 420,
+    height: 450,
     textAlign: "center",
     padding: 10,
     margin: "10px auto",
@@ -78,6 +78,10 @@ class NewItemDialog extends Component {
           <Button variant="contained" size="large" color="primary" style={{marginTop: 10, width: "50%"}}>
             投稿
           </Button>
+          <p>
+            自作APIを準備中のため<br />
+            投稿機能は未実装です
+          </p>
         </div>
         <div style={styles.closeButton}>
           <Button onClick={this.props.toggleNewItemDialog}>Close</Button>
